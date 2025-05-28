@@ -1,3 +1,4 @@
+#NOTE: ROLE AND ROLE BINDING IS namespace level where cluster role and clusterrole binding is cluster level
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
@@ -46,3 +47,28 @@ subjects:
 - apiGroup: rbac.authorization.k8s.io
   kind: User
   name: ramesh
+---
+#clusterrole
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: expense
+rules:
+- apiGroups: [""] # "" indicates the core API group nothing but v1
+  resources: ["nodes", "persistentvolumes", "namespaces"] #kubectl api-resource command
+  verbs: ["get", "watch", "list"]
+---
+#cluster-role-binding
+apiVersion: rbac.authorization.k8s.io/v1
+# This cluster role binding allows anyone in the "manager" group to read secrets in any namespace.
+kind: ClusterRoleBinding
+metadata:
+  name: expense
+subjects:
+- kind: User
+  name: ramesh # Name is case sensitive
+  apiGroup: rbac.authorization.k8s.io
+roleRef:
+  kind: ClusterRole
+  name: expense
+  apiGroup: rbac.authorization.k8s.io
