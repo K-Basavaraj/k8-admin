@@ -1,0 +1,24 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  namespace: expense
+  name: expense-trainee
+rules:
+- apiGroups: [""] # "" indicates the core API group nothing but v1
+  resources: ["pods"] #here we are giving only access to pods
+  verbs: ["get", "watch", "list"] #he have only read access like kubectl get pods, watch kubectl get pods etc; 
+---
+#for the above role you need to bind to the user using rolebinding
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: expense-trainee-bind
+  namespace: expense
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: expense-trainee
+subjects:
+- apiGroup: rbac.authorization.k8s.io
+  kind: User
+  name: suresh
