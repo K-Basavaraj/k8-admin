@@ -1,0 +1,20 @@
+#kubectl get configmap aws-auth -n kube-system -o yaml
+apiVersion: v1
+data:
+  mapRoles: |
+    - groups:
+      - system:bootstrappers
+      - system:nodes
+      rolearn: arn:aws:iam::688567303455:role/eksctl-expense-1-nodegroup-expense-NodeInstanceRole-13AJEASuHU4Z
+      username: system:node:{{EC2PrivateDNSName}}
+  mapUsers: |
+    - groups:
+      - expense-tarinee
+      userarn: arn:aws:iam::688567303455:user/suresh   
+      username: suresh
+kind: ConfigMap
+metadata:
+  creationTimestamp: "2025-05-27T23:32:56Z"
+  name: aws-auth
+  namespace: kube-system
+  uid: cdcffe84-7841-4464-a967-774971760408
